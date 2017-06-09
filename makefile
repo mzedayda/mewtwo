@@ -2,11 +2,15 @@ build:
 	coffee -o lib -c src
 	coffee -o test/lib -c test/src
 
+build-watch:
+	coffee -o lib -wc src
+	coffee -o test/lib -wc test/src
+
 run: build
 	node lib/index.js
 
 test: build
-	mocha test/lib
+	mocha --growl test/lib
 
 test-watch: build
-	mocha -w test/lib
+	mocha test/lib --growl -w 

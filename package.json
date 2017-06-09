@@ -20,6 +20,8 @@
   },
   "homepage": "https://github.com/mzedayda/mewtwo#readme",
   "dependencies": {
+    "async": "^2.4.1",
+    "lodash": "^4.17.4",
     "redfour": "^1.0.0"
   },
   "devDependencies": {
