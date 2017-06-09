@@ -18,5 +18,12 @@
   "bugs": {
     "url": "https://github.com/mzedayda/mewtwo/issues"
   },
-  "homepage": "https://github.com/mzedayda/mewtwo#readme"
+  "homepage": "https://github.com/mzedayda/mewtwo#readme",
+  "dependencies": {
+    "redfour": "^1.0.0"
+  },
+  "devDependencies": {
+    "chai": "^4.0.2",
+    "mocha": "^3.4.2"
+  }
 }
