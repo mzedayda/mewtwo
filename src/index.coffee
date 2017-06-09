@@ -7,6 +7,7 @@ MultiLock = require "./multiLock"
 internals = {}
 
 internals.defaults =
+  log: true
   timeout: 5 * 60 * 1000 # 5 minutes
   redfour: { redis: "redis://localhost:6379", namespace: "mewtwo" }
 
@@ -14,12 +15,14 @@ module.exports = class Mewtwo
   constructor: (options) ->
     options = _.defaults options, internals.defaults
 
+    @log = options.log
     @timeout = options.timeout
     @locker = new Redfour options.redfour
 
     @selfLockName = "__mewtwo__"
 
   acquire: (keys, done) ->
+    start = new Date()
     success = false
     selfLock = result = error = null
 
@@ -49,6 +52,8 @@ module.exports = class Mewtwo
             result = new MultiLock(singleLocks)
             next()
     , (err) =>
+      duration_ms = new Date() - start
+      @_log { selfLock: selfLock?, success, error, duration_ms, keysLength: keys.length, keys  } if @log
       return done(err) unless selfLock?
 
       @locker.releaseLock selfLock, (err) ->
@@ -63,3 +68,7 @@ module.exports = class Mewtwo
       return @locker.releaseLock singleLock, next if singleLock?.success
       next()
     , done
+
+  _log: (data) ->
+    data.time = new Date().toISOString()
+    console.info JSON.stringify data

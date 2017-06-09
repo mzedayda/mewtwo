@@ -5,7 +5,7 @@ Mewtwo = require "../../"
 
 describe "mewtwo", ->
   before ->
-    @mew = new Mewtwo({ timeout: 5000 })
+    @mew = new Mewtwo({ log: false, timeout: 5000 })
 
     @releaseLock = (lock, done) =>
       @mew.release lock, done
