@@ -1,0 +1,22 @@
+{
+  "name": "mewtwo",
+  "version": "0.0.0",
+  "description": "multi-key semaphore library",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mzedayda/mewtwo.git"
+  },
+  "keywords": [
+    "semaphore"
+  ],
+  "author": "mzedayda",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mzedayda/mewtwo/issues"
+  },
+  "homepage": "https://github.com/mzedayda/mewtwo#readme"
+}
