@@ -1,8 +1,13 @@
 ## mewtwo
+
 A small redis multi-key semaphore lib for nodejs, based on the redfour library
 
+<img src="./images/mewtwo.png" />
+
 ## Prequisites
+
 Written in coffeescript, so a coffee compiler is needed to build
+
 ```sh
 npm install -g coffee-script
 ```
@@ -14,6 +19,7 @@ npm install mewtwo --save
 ```
 
 ## Usage example
+
 ```coffeescript
 Mewtwo = require "mewtwo"
 
