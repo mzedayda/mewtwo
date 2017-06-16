@@ -1,6 +1,6 @@
 {
   "name": "mewtwo",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "multi-key semaphore library",
   "main": "lib/index.js",
   "scripts": {
