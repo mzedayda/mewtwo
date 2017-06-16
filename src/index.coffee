@@ -23,7 +23,6 @@ module.exports = class Mewtwo
 
   acquire: (keys, done) ->
     start = new Date()
-    success = false
     selfLock = result = error = null
 
     Async.series
@@ -53,7 +52,7 @@ module.exports = class Mewtwo
             next()
     , (err) =>
       duration_ms = new Date() - start
-      @_log { selfLock: selfLock?, success, error, duration_ms, keysLength: keys.length, keys  } if @log
+      @_log { selfLock: selfLock?, success: result?, error, duration_ms, keysLength: keys.length, keys  } if @log
       return done(err) unless selfLock?
 
       @locker.releaseLock selfLock, (err) ->

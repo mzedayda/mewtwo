@@ -4,7 +4,8 @@
   "description": "multi-key semaphore library",
   "main": "lib/index.js",
   "scripts": {
-    "test": "npm test"
+    "test": "make test",
+    "install": "make build"
   },
   "repository": {
     "type": "git",
