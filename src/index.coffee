@@ -38,14 +38,17 @@ module.exports = class Mewtwo
         keys = _.uniq keys
 
         Async.map keys, (key, next) =>
+          return next() if error?
+
           @locker.acquireLock key, @timeout, (err, singleLock) ->
-            return next(err) if err?
-            return next("#{key} is locked") unless singleLock.success
+            unless error?
+              error = err if err?
+              error = "#{key} is locked" unless singleLock.success and !error?
             next(null, singleLock)
         , (err, singleLocks) =>
-          if err?
+          if error?
             @_release singleLocks, (releaseErr) ->
-              if releaseErr? then error = "releaseErr: #{releaseErr}" else error = err
+              error = "releaseErr: #{releaseErr}" if releaseErr?
               next()
           else
             result = new MultiLock(singleLocks)
@@ -64,8 +67,10 @@ module.exports = class Mewtwo
 
   _release: (singleLocks, done) ->
     Async.each singleLocks, (singleLock, next) =>
-      return @locker.releaseLock singleLock, next if singleLock?.success
-      next()
+      return next() unless singleLock?.success
+      @locker.releaseLock singleLock, (err) ->
+        console.error "ReleaseErr: #{err}" if err?
+        next()
     , done
 
   _log: (data) ->

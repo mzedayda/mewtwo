@@ -84,5 +84,37 @@ describe "mewtwo", ->
       Async.each locksToRelease, @releaseLock, (err2) ->
         done(err ? err2)
 
+  it "should release all acquired locks when some fails", (done) ->
+    locksToRelease = []
+
+    count = 10
+
+    Async.series
+      lock1: (next) =>
+        @mew.acquire "key1", (err, lock1) ->
+          return next(err) if err?
+          lock1.singleLocks.should.have.length 1
+          lock1.singleLocks[0].success.should.be.true
+          locksToRelease.push lock1
+          next()
+
+      lock2: (next) =>
+        keys = [1..count].map (i) -> "key#{i}"
+        @mew.acquire keys, (err, lock2) ->
+          err.should.equal "key1 is locked"
+          should.not.exist lock2
+          next()
+
+      lock3: (next) =>
+        @mew.acquire "key#{count}", (err, lock3) ->
+          return next(err) if err?
+          lock3.singleLocks.should.have.length 1
+          lock3.singleLocks[0].success.should.be.true
+          locksToRelease.push lock3
+          next()
+    , (err) =>
+      Async.each locksToRelease, @releaseLock, (err2) ->
+        done(err ? err2)
+
   it "should not throw when no lock is given to release", (done) ->
     @mew.release null, done
